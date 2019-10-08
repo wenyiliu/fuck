@@ -5,7 +5,7 @@
   @author  liuwenyi
   
 """
-from log.xml.xml_parser import level_config, log_backup_count, log_max_size_config
+from pyLog.xml.xml_parser import level_config, log_backup_count, log_max_size_config
 import logging.handlers
 import logging
 import os

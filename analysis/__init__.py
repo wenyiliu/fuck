@@ -5,7 +5,7 @@
   @author  liuwenyi
   
 """
-from analysis.get_log import LogToMysql as Log
+from analysis.logToMysql import LogToMysql as Log
 
 config = {
     'host': '127.0.0.1',

@@ -7,7 +7,7 @@
 """
 import os
 from os import path
-from log.Log import *
+from pyLog.Log import *
 
 
 class LoggerFactory:
@@ -19,11 +19,11 @@ class LoggerFactory:
             parent_path = os.path.dirname(cur_path)  # 获得d所在的目录,即d的父级目录
             LoggerFactory.log_dir = parent_path + "/logs"
 
-        self.debug_path = LoggerFactory.log_dir + "/debug.log"
-        self.info_path = LoggerFactory.log_dir + "/info.log"
-        self.warn_path = LoggerFactory.log_dir + "/warn.log"
-        self.error_path = LoggerFactory.log_dir + "/error.log"
-        self.critical_path = LoggerFactory.log_dir + "/critical.log"
+        self.debug_path = LoggerFactory.log_dir + "/debug.pyLog"
+        self.info_path = LoggerFactory.log_dir + "/info.pyLog"
+        self.warn_path = LoggerFactory.log_dir + "/warn.pyLog"
+        self.error_path = LoggerFactory.log_dir + "/error.pyLog"
+        self.critical_path = LoggerFactory.log_dir + "/critical.pyLog"
 
         self.__debug = Debug(class_name, self.debug_path)
         self.__info = Info(class_name, self.info_path)

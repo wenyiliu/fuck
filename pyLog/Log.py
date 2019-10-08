@@ -6,7 +6,7 @@
   
 """
 import logging
-from log.logger import Logger
+from pyLog.logger import Logger
 
 
 class Critical(Logger):

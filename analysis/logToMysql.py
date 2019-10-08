@@ -8,7 +8,7 @@
 import datetime
 import json
 import pymysql
-from log import *
+from pyLog import *
 
 
 class LogToMysql(object):
@@ -32,6 +32,7 @@ class LogToMysql(object):
     def insert_data(self):
         data_list = self.__get_log()
         list_ = []
+        count = 0
         for data_dic in data_list:
             dict_ = dict(data_dic)
             user_id = dict_.get('userId', '')
@@ -39,7 +40,8 @@ class LogToMysql(object):
             if user_id == '':
                 user_id = 0
             if patient_id == '':
-                self.logger.info(f"患者ID为空,跳过写入数据库,日志:{data_dic}")
+                # self.logger.info(f"患者ID为空,跳过写入数据库,日志:{data_dic}")
+                count += 1
                 continue
             value = (
                 int(user_id), int(patient_id), dict_.get('methodName', ''),
@@ -50,11 +52,11 @@ class LogToMysql(object):
         sql = 'INSERT INTO yb_point_log_data(`user_id`, `patient_id`, `method_name` , `path`, `referer` ,' \
               ' `timestamp`, `ip`, `params`)VALUES(%s,%s,%s,%s,%s,%s,%s,%s)'
         self.__mysql.batch_insert(sql, list_)
-        self.logger.info(f"日志写入成功,count:{len(list_)}")
+        self.logger.info(f"{self.__log_name}日志写入成功,count:{len(list_)},跳过{count}条数据")
 
     def delete_data(self):
         delete_date = datetime.date.today() - datetime.timedelta(days=7)
-        sql = f"DELETE FROM yb_point_log_data where date(`timestamp`)={delete_date}"
+        sql = f"DELETE FROM yb_point_log_data WHERE DATE(`create_time`)={delete_date}"
         self.__mysql.delete(sql)
         self.logger.info(f"删除 {delete_date} 数据成功")
 
@@ -92,9 +94,13 @@ class Mysql(object):
             self.__close(conn, cursor)
             return
         cursor.executemany(sql, values)
-        self.__close(conn, cursor)
+        conn.commit()
+        cursor.close()
+        conn.close()
 
     def delete(self, sql):
         conn, cursor = self.__connect()
         cursor.execute(sql)
-        self.__close(conn, cursor)
+        conn.commit()
+        cursor.close()
+        conn.close()
