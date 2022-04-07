@@ -361,11 +361,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.chr_to_mp3" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.logToMysql" />
         <item itemvalue="Python.kafka" />
         <item itemvalue="Python.hive" />
+        <item itemvalue="Python.chr_to_mp3" />
       </list>
     </recent_temporary>
   </component>
